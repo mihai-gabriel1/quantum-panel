@@ -1,15 +1,19 @@
 // layout/Sidebar.jsx
 import React from 'react';
 import { BarChart3, X, Home, Users, Settings, HelpCircle } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from '../components/SidebarItem';
 
 const Sidebar = ({ isOpen, setIsOpen, isDarkMode }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const sidebarItems = [
-        { icon: Home, label: 'Dashboard', active: true },
-        { icon: Users, label: 'Users' },
-        { icon: BarChart3, label: 'Analytics' },
-        { icon: Settings, label: 'Settings' },
-        { icon: HelpCircle, label: 'Help' },
+        { icon: Home, label: 'Dashboard', path: '/dashboard' },
+        { icon: Users, label: 'Users', path: '/users' },
+        { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+        { icon: Settings, label: 'Settings', path: '/settings' },
+        { icon: HelpCircle, label: 'Help', path: '/help' },
     ];
 
     return (
@@ -38,11 +42,13 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode }) => {
 
             {/* Navigation */}
             <nav className="mt-4 px-2">
-                {sidebarItems.map((item, index) => (
+                {sidebarItems.map((item) => (
                     <SidebarItem
-                        key={index}
+                        key={item.path}
                         {...item}
+                        active={location.pathname === item.path}
                         isDarkMode={isDarkMode}
+                        onClick={() => navigate(item.path)}
                     />
                 ))}
             </nav>

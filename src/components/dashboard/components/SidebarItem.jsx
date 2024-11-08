@@ -1,10 +1,11 @@
 // components/SidebarItem.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const SidebarItem = ({ icon: Icon, label, active, isDarkMode }) => {
+const SidebarItem = ({ icon: Icon, label, path, active, isDarkMode }) => {
     return (
-        <a
-            href="#"
+        <Link
+            to={path}
             className={`flex items-center space-x-2 px-4 py-3 rounded-lg mb-1 transition-colors ${
                 active
                     ? isDarkMode
@@ -17,7 +18,7 @@ const SidebarItem = ({ icon: Icon, label, active, isDarkMode }) => {
         >
             <Icon className="h-5 w-5" />
             <span>{label}</span>
-        </a>
+        </Link>
     );
 };
 

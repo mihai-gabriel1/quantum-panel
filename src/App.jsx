@@ -2,20 +2,26 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Dashboard from './components/dashboard/Dashboard';
 import LandingPage from './components/LandingPage';
 import Users from "./components/dashboard/components/users/Users.jsx";
+import DashboardLayout from './components/dashboard/layout/DashboardLayout';
 
 function App() {
     return (
         <Router>
             <Routes>
-                {/* Show Landing Page at root path */}
                 <Route path="/" element={<LandingPage />} />
 
-                {/* Dashboard route */}
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={
+                    <DashboardLayout>
+                        <Dashboard />
+                    </DashboardLayout>
+                } />
 
-                <Route path="/users" element={<Users />} />
+                <Route path="/users" element={
+                    <DashboardLayout>
+                        <Users />
+                    </DashboardLayout>
+                } />
 
-                {/* Optional: Redirect undefined routes to landing page */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Router>

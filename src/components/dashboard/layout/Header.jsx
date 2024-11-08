@@ -4,8 +4,8 @@ import { Menu, Search, Bell, Sun, Moon } from 'lucide-react';
 
 const Header = ({ setIsSidebarOpen, isDarkMode, setIsDarkMode }) => {
     return (
-        <header className={`fixed top-0 right-0 left-0 md:left-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-            <div className="flex items-center justify-between h-16 px-4">
+        <header className={`left-0 md:left-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+            <div className="flex items-center justify-between p-4">
                 <button
                     onClick={() => setIsSidebarOpen(true)}
                     className={`md:hidden ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
