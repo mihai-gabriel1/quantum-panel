@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Users, ShoppingCart, FileText, Bell, Filter,
-    UserPlus, DollarSign, ChartBar, Settings, AlertTriangle,
-    Check, Clock, ArrowRight, MapPin, X
+    UserPlus, DollarSign, ChartBar, AlertTriangle,
+    Settings, Clock, MapPin, X, Bell, Filter, ArrowRight
 } from 'lucide-react';
 
-const ActivityBadge = ({ type, animate = true }) => {
+const ActivityBadge = ({ type }) => {
     const badges = {
         user_registered: { icon: UserPlus, color: 'text-blue-400', bg: 'bg-blue-400/10' },
         sale_completed: { icon: DollarSign, color: 'text-green-400', bg: 'bg-green-400/10' },
@@ -18,14 +17,9 @@ const ActivityBadge = ({ type, animate = true }) => {
     const { icon: Icon, color, bg } = badges[type] || badges.user_registered;
 
     return (
-        <motion.div
-            initial={animate ? { scale: 0 } : false}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className={`p-3 rounded-xl ${bg}`}
-        >
+        <div className={`p-3 rounded-xl ${bg}`}>
             <Icon className={`h-5 w-5 ${color}`} />
-        </motion.div>
+        </div>
     );
 };
 
@@ -33,44 +27,38 @@ const ActivityItem = ({ activity, isDarkMode, onSelect }) => {
     return (
         <motion.div
             layout
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            whileHover={{ scale: 1.03 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            whileHover={{ scale: 1.02 }}
             onClick={() => onSelect(activity)}
-            className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-200 ${
+            className={`flex items-center p-4 rounded-xl cursor-pointer transition-colors ${
                 isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'
             }`}
         >
             <ActivityBadge type={activity.type} />
-
             <div className="ml-4 flex-1">
                 <div className="flex items-center justify-between">
                     <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                         {activity.message}
                     </p>
-                    <div className="flex items-center space-x-2">
-                        {activity.status && (
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                activity.status === 'completed'
-                                    ? 'bg-green-400/10 text-green-400'
-                                    : 'bg-yellow-400/10 text-yellow-400'
-                            }`}>
-                                {activity.status}
-                            </span>
-                        )}
-                    </div>
+                    {activity.status && (
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            activity.status === 'completed' ? 'bg-green-400/10 text-green-400' : 'bg-yellow-400/10 text-yellow-400'
+                        }`}>
+                            {activity.status}
+                        </span>
+                    )}
                 </div>
-
-                <div className="flex items-center mt-1 text-sm">
-                    <Clock className={`h-4 w-4 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>
+                <div className="flex items-center mt-1">
+                    <Clock className={`h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mr-1`} />
+                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         {activity.timestamp}
                     </span>
                     {activity.location && (
                         <>
-                            <MapPin className={`h-4 w-4 ml-3 mr-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>
+                            <MapPin className={`h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} ml-3 mr-1`} />
+                            <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                                 {activity.location}
                             </span>
                         </>
@@ -81,35 +69,149 @@ const ActivityItem = ({ activity, isDarkMode, onSelect }) => {
     );
 };
 
-const ActivityDetails = ({ activity, isDarkMode, onClose }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        className={`absolute inset-0 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}
-    >
-        <div className="flex items-center justify-between">
-            <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                {activity.message}
-            </h3>
-            <button
-                onClick={onClose}
-                className={`p-2 rounded-lg ${isDarkMode ? 'text-gray-400 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
-            >
-                <X className="h-5 w-5" />
-            </button>
-        </div>
-        <div className="mt-4 space-y-3">
-            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
-                {activity.details || 'No additional details available.'}
-            </p>
-        </div>
-    </motion.div>
-);
+const ActivityDetails = ({ activity, isDarkMode, onClose }) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className={`absolute inset-0 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg overflow-y-auto`}
+        >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-4">
+                    <ActivityBadge type={activity.type} />
+                    <div>
+                        <h3 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                            {activity.message}
+                        </h3>
+                        <div className="flex items-center mt-1">
+                            <Clock className={`h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mr-1`} />
+                            <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {activity.timestamp}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    onClick={onClose}
+                    className={`p-2 rounded-lg transition-colors ${
+                        isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-200 text-gray-600'
+                    }`}
+                >
+                    <X className="h-5 w-5" />
+                </button>
+            </div>
 
-const RecentActivity = ({ isDarkMode }) => {
-    const [selectedActivity, setSelectedActivity] = useState(null);
+            {/* Content */}
+            <div className="p-6 space-y-6">
+                {/* Status Badge */}
+                {activity.status && (
+                    <div>
+                        <h4 className={`text-sm font-medium uppercase tracking-wider mb-3 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                            Status
+                        </h4>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            activity.status === 'completed'
+                                ? 'bg-green-400/10 text-green-400'
+                                : 'bg-yellow-400/10 text-yellow-400'
+                        }`}>
+                            {activity.status.charAt(0).toUpperCase() + activity.status.slice(1)}
+                        </span>
+                    </div>
+                )}
+
+                {/* Details Section */}
+                <div>
+                    <h4 className={`text-sm font-medium uppercase tracking-wider mb-3 ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                        Description
+                    </h4>
+                    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                        <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            {activity.details}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Location if available */}
+                {activity.location && (
+                    <div>
+                        <h4 className={`text-sm font-medium uppercase tracking-wider mb-3 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                            Location
+                        </h4>
+                        <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} flex items-center`}>
+                            <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                            <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                {activity.location}
+                            </span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Metadata Grid */}
+                {activity.metadata && (
+                    <div>
+                        <h4 className={`text-sm font-medium uppercase tracking-wider mb-3 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                            Details
+                        </h4>
+                        <div className={`grid grid-cols-2 gap-4 p-4 rounded-lg ${
+                            isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
+                        }`}>
+                            {Object.entries(activity.metadata).map(([key, value]) => (
+                                <div key={key} className="space-y-1">
+                                    <dt className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                        {key}
+                                    </dt>
+                                    <dd className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                                        {value}
+                                    </dd>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex space-x-3 mt-6">
+                    {activity.type === 'system_alert' && (
+                        <button className={`flex-1 py-2 px-4 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors`}>
+                            View Update Details
+                        </button>
+                    )}
+                    {activity.type === 'sale_completed' && (
+                        <button className={`flex-1 py-2 px-4 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors`}>
+                            View Transaction
+                        </button>
+                    )}
+                    {activity.type === 'user_registered' && (
+                        <button className={`flex-1 py-2 px-4 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors`}>
+                            View Profile
+                        </button>
+                    )}
+                    <button className={`flex-1 py-2 px-4 rounded-lg transition-colors ${
+                        isDarkMode
+                            ? 'bg-gray-700 hover:bg-gray-600 text-white'
+                            : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                    }`}>
+                        Dismiss
+                    </button>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+const RecentActivity = ({ isDarkMode }) => {  // Accept isDarkMode as prop
     const [filter, setFilter] = useState('all');
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     const activities = [
         {
@@ -182,55 +284,54 @@ const RecentActivity = ({ isDarkMode }) => {
         }
     ];
 
-    const filteredActivities = filter === 'all'
-        ? activities
-        : activities.filter(activity => activity.status === filter);
+    const filteredActivities = activities.filter(activity => {
+        if (filter === 'all') return true;
+        return activity.status === filter;
+    });
 
     return (
         <div className={`relative p-6 rounded-xl mt-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
-                    <Bell className={`h-5 w-5 ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
                     <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                         Recent Activity
                     </h2>
                 </div>
-                <select
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className={`px-3 py-2 rounded-lg ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-700'}`}
-                >
-                    <option value="all">All Activities</option>
-                    <option value="completed">Completed</option>
-                    <option value="pending">Pending</option>
-                </select>
-            </div>
-
-            <AnimatePresence mode="wait">
-                {selectedActivity ? (
-                    <ActivityDetails
-                        activity={selectedActivity}
-                        isDarkMode={isDarkMode}
-                        onClose={() => setSelectedActivity(null)}
-                    />
-                ) : (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="space-y-4"
+                <div className="flex items-center space-x-3">
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                            isDarkMode
+                                ? 'bg-gray-700 text-white border-gray-600'
+                                : 'bg-gray-100 text-gray-700 border-gray-200'
+                        } border focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                     >
-                        {filteredActivities.map((activity, index) => (
-                            <ActivityItem
-                                key={index}
-                                activity={activity}
-                                isDarkMode={isDarkMode}
-                                onSelect={setSelectedActivity}
-                            />
-                        ))}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                        <option value="all">All Activities</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+            <div className="space-y-4">
+                <AnimatePresence>
+                    {filteredActivities.map((activity, index) => (
+                        <ActivityItem
+                            key={index}
+                            activity={activity}
+                            isDarkMode={isDarkMode}
+                            onSelect={setSelectedActivity}
+                        />
+                    ))}
+                </AnimatePresence>
+            </div>
+            {selectedActivity && (
+                <ActivityDetails
+                    activity={selectedActivity}
+                    isDarkMode={isDarkMode}
+                    onClose={() => setSelectedActivity(null)}
+                />
+            )}
         </div>
     );
 };
