@@ -1,4 +1,4 @@
-// components/dashboard/Dashboard.jsx
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import StatsGrid from './sections/StatsGrid';
 import ChartSection from './sections/ChartSection';

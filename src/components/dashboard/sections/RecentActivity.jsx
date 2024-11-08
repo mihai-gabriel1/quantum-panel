@@ -250,7 +250,7 @@ const RecentActivity = ({ isDarkMode }) => {  // Accept isDarkMode as prop
             details: 'Monthly performance analytics report generated for Q3 2024.',
             metadata: {
                 'Report ID': '#RPT-123',
-                'Type': 'Performance Analytics',
+                'Type': 'Performance DashboardMetrics',
                 'Period': 'Q3 2024',
                 'Size': '2.3 MB'
             }

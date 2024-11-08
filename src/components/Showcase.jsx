@@ -23,7 +23,7 @@ const ShowcaseCard = ({ item, isHovered, onHover }) => {
                 <div className="flex items-center mb-4">
                     <Sparkles className="h-5 w-5 text-indigo-400 mr-2" />
                     <h3 className="text-lg font-semibold text-white">
-                        {item === 1 && "Interactive Analytics"}
+                        {item === 1 && "Interactive DashboardMetrics"}
                         {item === 2 && "Real-time Monitoring"}
                         {item === 3 && "Smart Notifications"}
                     </h3>

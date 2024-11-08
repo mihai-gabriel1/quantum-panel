@@ -75,7 +75,7 @@ const DashboardLayout = ({ children }) => {
                     setIsDarkMode={handleDarkModeToggle}
                 />
 
-                <main className="pt-16 px-4 md:px-6 lg:px-8 py-6">
+                <main className="pt-0 px-4 md:px-6 lg:px-8 py-6">
                     {/* Clone children and pass isDarkMode prop */}
                     {React.Children.map(children, child => {
                         return React.cloneElement(child, { isDarkMode });

@@ -39,7 +39,7 @@ const FeaturesSection = () => {
         },
         {
             icon: BarChart3,
-            title: "Intelligent Analytics Suite",
+            title: "Intelligent DashboardMetrics Suite",
             description: "Transform raw data into actionable insights with our AI-powered analytics. Create custom dashboards, generate predictive reports, and unlock hidden patterns in your data with just a few clicks.",
             color: "bg-gradient-to-br from-indigo-400/20 to-blue-500/20 text-indigo-400"
         }
