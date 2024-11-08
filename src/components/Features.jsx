@@ -57,7 +57,7 @@ const FeaturesSection = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400 mb-4">
-                        Why Choose AdminDash?
+                        Why Choose Quantum Panel?
                     </h2>
                     <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                         Experience the perfect blend of power, security, and ease of use

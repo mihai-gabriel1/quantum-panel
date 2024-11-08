@@ -52,7 +52,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center space-x-2">
                         <BarChart3 className={`h-8 w-8 ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
-                        <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>AdminDash</span>
+                        <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Quantum Panel</span>
                     </div>
                     <button
                         onClick={() => setIsSidebarOpen(false)}

@@ -16,7 +16,7 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                         {/* Logo */}
                         <div className="flex items-center">
                             <BarChart3 className="h-8 w-8 text-indigo-400"/>
-                            <span className="ml-2 text-xl font-bold text-white">AdminDash</span>
+                            <span className="ml-2 text-xl font-bold text-white">Quantum Panel</span>
                         </div>
 
                         {/* Desktop Navigation */}

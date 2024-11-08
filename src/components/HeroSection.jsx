@@ -70,7 +70,7 @@ const HeroSection = () => {
                     {/* Animated badge */}
                     <div className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-500/10 text-indigo-300 mb-8 border border-indigo-500/20">
                         <Sparkles className="h-4 w-4 mr-2" />
-                        <AnimatedText text="Introducing AdminDash 2.0" />
+                        <AnimatedText text="Introducing Quantum Panel 2.0" />
                     </div>
 
                     {/* Main heading with gradient */}
@@ -78,7 +78,7 @@ const HeroSection = () => {
                         <AnimatedText text="Your Next-Generation" />
                         <br />
                         <span className="text-5xl sm:text-6xl md:text-7xl">
-                            <AnimatedText text="Admin Dashboard" />
+                            <AnimatedText text="Quantum Panel" />
                         </span>
                     </h1>
 
