@@ -3,6 +3,12 @@ import { BarChart3, Shield, Zap, Menu } from 'lucide-react';
 import HeroSection from './HeroSection';
 import Showcase from "./Showcase.jsx";
 import Features from "./Features.jsx";
+import Testimonials from "./Testimonials.jsx";
+import Pricing from "./Pricing.jsx";
+import Integrations from "./Integrations.jsx";
+import FAQ from "./FAQ.jsx";
+import Footer from "./Footer.jsx";
+import CTA from "./CTA.jsx";
 
 
 const LandingPage = () => {
@@ -87,17 +93,24 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
             {/* Features Section */}
             <Features />
 
+            {/* Testimonials Section */}
+            <Testimonials/>
+
+            {/* Pricing Section */}
+            <Pricing />
+
+            {/* Integrations Section */}
+            <Integrations />
+
             {/* CTA Section */}
-            <div className="py-16 bg-gradient-to-r from-indigo-600 to-purple-600">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-3xl font-bold text-white mb-6">
-                        Ready to transform your admin experience?
-                    </h2>
-                    <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-                        Get Started Free
-                    </button>
-                </div>
-            </div>
+            <CTA />
+
+            {/* FAQ Section */}
+            <FAQ />
+
+            {/*Footer Section*/}
+            <Footer />
+
         </div>
     );
 };
