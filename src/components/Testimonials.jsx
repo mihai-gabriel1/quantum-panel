@@ -47,7 +47,7 @@ const TestimonialsSection = () => {
         {
             name: "Michael Chen",
             role: "Product Manager",
-            company: "InnovateLabs",
+            company: "TeachMeCode",
             image: "/api/placeholder/100/100",
             quote: "The speed and security features are unmatched. We've seen a remarkable improvement in our team's productivity since switching to Quantum Panel. The customization options are endless.",
             rating: 5
@@ -75,7 +75,7 @@ const TestimonialsSection = () => {
                 {/* Section header */}
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400 mb-4">
-                        Trusted by Industry Leaders
+                        Trusted by Industry Giants
                     </h2>
                     <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                         Join thousands of satisfied teams who have transformed their workflow with Quantum Panel

@@ -50,7 +50,7 @@ const Header = ({ setIsSidebarOpen, isDarkMode, setIsDarkMode }) => {
                         <Bell className="h-6 w-6" />
                         <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400" />
                         {isNotificationsOpen && (
-                            <div className={`absolute right-0 mt-2 w-96 bg-white shadow-lg rounded-lg overflow-hidden ${isDarkMode ? 'bg-gray-800 text-white' : 'text-gray-900'}`}>
+                            <div className={`z-50 absolute right-0 mt-2 w-96 bg-white shadow-lg rounded-lg overflow-hidden ${isDarkMode ? 'bg-gray-800 text-white' : 'text-gray-900'}`}>
                                 <div className="p-4 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}">
                                     <h4 className="font-semibold">Notifications</h4>
                                     <p className="text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}">Stay updated with recent activity</p>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BarChart3, Shield, Zap, Menu } from 'lucide-react';
+import { BarChart3, Shield, Zap, Menu, X } from 'lucide-react';
 import HeroSection from './HeroSection';
 import Showcase from "./Showcase.jsx";
 import Features from "./Features.jsx";
@@ -9,6 +9,7 @@ import Integrations from "./Integrations.jsx";
 import FAQ from "./FAQ.jsx";
 import Footer from "./Footer.jsx";
 import CTA from "./CTA.jsx";
+import Logo3D from "../assets/Logo3D.jsx";
 
 
 const LandingPage = () => {
@@ -86,6 +87,8 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             {/* Hero Section */}
             <HeroSection/>
+
+            {/*<Logo3D />*/}
 
             {/* Showcase Section */}
             <Showcase />
