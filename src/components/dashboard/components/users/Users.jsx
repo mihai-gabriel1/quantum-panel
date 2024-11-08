@@ -1,5 +1,5 @@
 // components/dashboard/components/users/Users.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
     UserPlus, Search, Filter,
@@ -9,37 +9,57 @@ import {
 
 const Users = ({ isDarkMode }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedUser, setSelectedUser] = useState(null);
     const [activeDropdown, setActiveDropdown] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [usersPerPage] = useState(10);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    const users = [
-        {
-            id: 1,
-            name: 'John Doe',
-            email: 'john@example.com',
-            role: 'Admin',
-            status: 'Active',
-            lastActive: '2 hours ago',
-            department: 'Engineering',
-            avatar: '/api/placeholder/40/40'
-        },
-        {
-            id: 2,
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            role: 'Manager',
-            status: 'Active',
-            lastActive: '5 minutes ago',
-            department: 'Sales',
-            avatar: '/api/placeholder/40/40'
-        },
-        // Add more users as needed
-    ];
+    // Fetch user data from randomuser.me
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch('https://randomuser.me/api/?results=50'); // Fetch 50 random users
+                const data = await response.json();
+                const usersWithDetails = data.results.map(user => ({
+                    id: user.login.uuid,
+                    name: `${user.name.first} ${user.name.last}`,
+                    email: user.email,
+                    role: 'User ', // Default role
+                    status: Math.random() > 0.5 ? 'Active' : 'Inactive', // Random active/inactive status
+                    lastActive: `${Math.floor(Math.random() * 24)} hours ago`, // Random last active time
+                    department: 'Engineering', // Default department
+                    avatar: user.picture.thumbnail // User avatar
+                }));
+                setUsers(usersWithDetails);
+                setFilteredUsers(usersWithDetails); // Initialize filtered users
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
 
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        fetchUsers();
+    }, []);
+
+    // Debounce search input
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            const results = users.filter(user =>
+                user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                user.email.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredUsers(results);
+        }, 300);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchTerm, users]);
+
+    const indexOfLastUser   = currentPage * usersPerPage;
+    const indexOfFirstUser   = indexOfLastUser   - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser  , indexOfLastUser  );
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
     return (
         <div className={`mt-6 p-6 rounded-xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
@@ -69,7 +89,7 @@ const Users = ({ isDarkMode }) => {
 
             {/* Search and Filter */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="flex-1 relative">
+                <div className="flex -1 relative">
                     <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 ${
                         isDarkMode ? 'text-gray-400' : 'text-gray-500'
                     }`} />
@@ -99,7 +119,7 @@ const Users = ({ isDarkMode }) => {
                 <table className="w-full">
                     <thead>
                     <tr className={`text-left ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        <th className="px-4 py-3">User</th>
+                        <th className="px-4 py-3">User </th>
                         <th className="px-4 py-3">Role</th>
                         <th className="px-4 py-3">Department</th>
                         <th className="px-4 py-3">Status</th>
@@ -108,7 +128,7 @@ const Users = ({ isDarkMode }) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {filteredUsers.map((user) => (
+                    {currentUsers.map((user) => (
                         <motion.tr
                             key={user.id}
                             initial={{ opacity: 0, y: 20 }}
@@ -141,28 +161,28 @@ const Users = ({ isDarkMode }) => {
                                 </div>
                             </td>
                             <td className="px-4 py-4">
-                                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                                        {user.role}
-                                    </span>
+                                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                                    {user.role}
+                                </span>
                             </td>
                             <td className="px-4 py-4">
-                                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                                        {user.department}
-                                    </span>
+                                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                                    {user.department}
+                                </span>
                             </td>
                             <td className="px-4 py-4">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                        user.status === 'Active'
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-yellow-100 text-yellow-800'
-                                    }`}>
-                                        {user.status}
-                                    </span>
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    user.status === 'Active'
+                                        ? 'bg-green-100 text-green-800'
+                                        : 'bg-yellow-100 text-yellow-800'
+                                }`} title={user.status}>
+                                    {user.status}
+                                </span>
                             </td>
                             <td className="px-4 py-4">
-                                    <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                                        {user.lastActive}
-                                    </span>
+                                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                                    {user.lastActive}
+                                </span>
                             </td>
                             <td className="px-4 py-4">
                                 <div className="relative">
@@ -176,9 +196,14 @@ const Users = ({ isDarkMode }) => {
                                     </button>
 
                                     {activeDropdown === user.id && (
-                                        <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10 ${
-                                            isDarkMode ? 'bg-gray-700' : 'bg-white'
-                                        } ring-1 ring-black ring-opacity-5`}>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.9 }}
+                                            className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10 ${
+                                                isDarkMode ? 'bg-gray-700' : 'bg-white'
+                                            } ring-1 ring-black ring-opacity-5`}
+                                        >
                                             <div className="py-1">
                                                 <button
                                                     className={`flex items-center w-full px-4 py-2 text-sm ${
@@ -216,7 +241,7 @@ const Users = ({ isDarkMode }) => {
                                                     Delete
                                                 </button>
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     )}
                                 </div>
                             </td>
@@ -229,21 +254,29 @@ const Users = ({ isDarkMode }) => {
             {/* Pagination */}
             <div className="mt-6 flex items-center justify-between">
                 <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                    Showing 1 to 10 of {users.length} entries
+                    Showing {indexOfFirstUser  + 1} to {Math.min(indexOfLastUser , filteredUsers.length)} of {filteredUsers.length} entries
                 </div>
                 <div className="flex space-x-2">
-                    <button className={`px-4 py-2 rounded-lg ${
-                        isDarkMode
-                            ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}>
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        className={`px-4 py-2 rounded-lg ${
+                            isDarkMode
+                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                        disabled={currentPage === 1}
+                    >
                         Previous
                     </button>
-                    <button className={`px-4 py-2 rounded-lg ${
-                        isDarkMode
-                            ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}>
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        className={`px-4 py-2 rounded-lg ${
+                            isDarkMode
+                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                        disabled={currentPage === totalPages}
+                    >
                         Next
                     </button>
                 </div>
