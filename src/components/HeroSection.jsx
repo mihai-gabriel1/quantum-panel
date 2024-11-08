@@ -117,7 +117,7 @@ const HeroSection = () => {
                     {/* Stats section */}
                     <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto px-4">
                         {[
-                            {icon: BarChart3, label: 'Active Users', value: '10,000+'},
+                            {icon: BarChart3, label: 'Active users', value: '10,000+'},
                             {icon: Shield, label: 'Data Protected', value: '99.9%'},
                             {icon: Zap, label: 'Response Time', value: '<100ms'},
                         ].map(({icon: Icon, label, value}, index) => (
