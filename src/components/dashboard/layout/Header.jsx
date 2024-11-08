@@ -1,7 +1,25 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Menu, Search, Bell, Sun, Moon, MessageCircle, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 
 const Header = ({ setIsSidebarOpen, isDarkMode, setIsDarkMode }) => {
+    useEffect(() => {
+        // Get both html and body elements
+        const htmlElement = document.documentElement;
+
+        if (isDarkMode) {
+            htmlElement.classList.add('dark-root');
+            htmlElement.classList.remove('light-root');
+        } else {
+            htmlElement.classList.add('light-root');
+            htmlElement.classList.remove('dark-root');
+        }
+
+        // Cleanup
+        return () => {
+            htmlElement.classList.remove('dark-root', 'light-root');
+        };
+    }, [isDarkMode]);
+
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
     const notifications = [

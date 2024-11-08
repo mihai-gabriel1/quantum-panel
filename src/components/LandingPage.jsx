@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BarChart3, Shield, Zap, Menu, X } from 'lucide-react';
 import HeroSection from './HeroSection';
 import Showcase from "./Showcase.jsx";
@@ -9,11 +9,19 @@ import Integrations from "./Integrations.jsx";
 import FAQ from "./FAQ.jsx";
 import Footer from "./Footer.jsx";
 import CTA from "./CTA.jsx";
-import Logo3D from "../assets/Logo3D.jsx";
 
 
 const LandingPage = () => {
 const [isMenuOpen, setIsMenuOpen] = useState(false);
+    useEffect(() => {
+        // Set body background
+        document.body.classList.add('bg-gray-900');
+
+        // Cleanup function to remove the class when component unmounts
+        return () => {
+            document.body.classList.remove('bg-gray-900');
+        };
+    }, []); // Empty dependency array means this runs once on mount
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-indigo-900">
             {/* Navigation */}
