@@ -1,10 +1,9 @@
-// layout/Sidebar.jsx
 import React from 'react';
-import { BarChart3, X, Home, Users, Settings, HelpCircle } from 'lucide-react';
+import { BarChart3, X, Home, Users, Settings, HelpCircle, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from '../components/SidebarItem';
 
-const Sidebar = ({ isOpen, setIsOpen, isDarkMode }) => {
+const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -38,6 +37,29 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode }) => {
                 >
                     <X className="h-6 w-6" />
                 </button>
+            </div>
+
+            {/* Mode Selector - Only visible on mobile */}
+            <div className="md:hidden px-4 py-2 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}">
+                <div className="flex items-center justify-between">
+        <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            Dark Mode
+        </span>
+                    <button
+                        onClick={() => setIsDarkMode(!isDarkMode)}
+                        className={`flex items-center justify-center w-10 h-6 rounded-full ${
+                            isDarkMode
+                                ? 'bg-indigo-600 justify-end'
+                                : 'bg-gray-300 justify-start'
+                        }`}
+                    >
+            <span className={`inline-block w-4 h-4 rounded-full ${
+                isDarkMode
+                    ? 'bg-white translate-x-2'
+                    : 'bg-white -translate-x-2'
+            }`} />
+                    </button>
+                </div>
             </div>
 
             {/* Navigation */}
