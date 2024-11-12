@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, X, Home, Users, Settings, HelpCircle, Sun, Moon } from 'lucide-react';
+import { BarChart3, X, Home, Users, Settings, HelpCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from '../components/SidebarItem';
 
@@ -11,6 +11,7 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
         { icon: Home, label: 'Dashboard', path: '/dashboard' },
         { icon: Users, label: 'Users', path: '/users' },
         { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+        { icon: BarChart3, label: 'Anomaly', path: '/anomaly' }, // Use a suitable icon here
         { icon: Settings, label: 'Settings', path: '/settings' },
         { icon: HelpCircle, label: 'Help', path: '/help' },
     ];
@@ -42,9 +43,9 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
             {/* Mode Selector - Only visible on mobile */}
             <div className="md:hidden px-4 py-2 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}">
                 <div className="flex items-center justify-between">
-        <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Dark Mode
-        </span>
+                    <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        Dark Mode
+                    </span>
                     <button
                         onClick={() => setIsDarkMode(!isDarkMode)}
                         className={`flex items-center justify-center w-10 h-6 rounded-full ${
@@ -53,11 +54,11 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
                                 : 'bg-gray-300 justify-start'
                         }`}
                     >
-            <span className={`inline-block w-4 h-4 rounded-full ${
-                isDarkMode
-                    ? 'bg-white translate-x-2'
-                    : 'bg-white -translate-x-2'
-            }`} />
+                        <span className={`inline-block w-4 h-4 rounded-full ${
+                            isDarkMode
+                                ? 'bg-white translate-x-2'
+                                : 'bg-white -translate-x-2'
+                        }`} />
                     </button>
                 </div>
             </div>
@@ -70,7 +71,10 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
                         {...item}
                         active={location.pathname === item.path}
                         isDarkMode={isDarkMode}
-                        onClick={() => navigate(item.path)}
+                        onClick={() => {
+                            navigate(item.path);
+                            setIsOpen(false);
+                        }}
                     />
                 ))}
             </nav>
