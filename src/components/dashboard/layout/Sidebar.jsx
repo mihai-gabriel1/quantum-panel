@@ -11,7 +11,7 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
         { icon: Home, label: 'Dashboard', path: '/dashboard' },
         { icon: Users, label: 'Users', path: '/users' },
         { icon: BarChart3, label: 'Analytics', path: '/analytics' },
-        { icon: BarChart3, label: 'Anomaly', path: '/anomaly' }, // Use a suitable icon here
+        { icon: BarChart3, label: 'System Events', path: '/system-events' }, // Use a suitable icon here
         { icon: Settings, label: 'Settings', path: '/settings' },
         { icon: HelpCircle, label: 'Help', path: '/help' },
     ];

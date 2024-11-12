@@ -6,7 +6,7 @@ import DashboardLayout from './components/dashboard/layout/DashboardLayout';
 import DashboardMetrics from "./components/dashboard/components/DashboardMetrics.jsx";
 import Settings from "./components/dashboard/components/Settings.jsx";
 import Help from "./components/dashboard/components/Help.jsx";
-import AnomalyDetector from "./components/AnomalyDetector.jsx";
+import SystemEvents from "./components/SystemEvents.jsx";
 function App() {
     return (
         <Router>
@@ -43,9 +43,9 @@ function App() {
                     </DashboardLayout>
                 } />
 
-                <Route path="/anomaly" element={
+                <Route path="/system-events" element={
                     <DashboardLayout>
-                        <AnomalyDetector />
+                        <SystemEvents />
                     </DashboardLayout>
                 } />
 

@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { AlertCircle, TrendingUp, TrendingDown, Bell, BellOff, Settings, Download, Share2, Filter } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-const AnomalyDetector = ({ isDarkMode }) => {
+const SystemEvents = ({ isDarkMode }) => {
     // Predefined sequence of data points with planned anomalies
     const initialData = [
         { timestamp: '09:00', value: 145, isAnomaly: false, threshold: 200, description: null },
@@ -35,7 +35,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
 
     const showSwalNotification = (anomaly) => {
         const icon = anomaly.value > 300 ? 'error' : 'warning';
-        const title = anomaly.value > 300 ? 'Critical Anomaly Detected!' : 'Anomaly Detected';
+        const title = anomaly.value > 300 ? 'Critical System Event!' : 'System Event';
 
         Swal.fire({
             title: title,
@@ -131,7 +131,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
             <div className="mb-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <h2 className="text-xl font-semibold">Real-Time Anomaly Detection</h2>
+                        <h2 className="text-xl font-semibold">Real-Time System Event Detection</h2>
                         <div className="flex items-center space-x-2">
                             {notificationsEnabled ? (
                                 <Bell className="h-5 w-5 cursor-pointer text-blue-500"
@@ -190,7 +190,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
             {/* Stats Cards */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                    <div className="text-sm font-medium mb-1">Total Anomalies</div>
+                    <div className="text-sm font-medium mb-1">Total Events</div>
                     <div className="text-2xl font-bold">{anomalyStats.total}</div>
                 </div>
                 <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
@@ -271,7 +271,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
                             <AlertCircle className="h-4 w-4 mr-2" />
                             <div className="flex-1">
                                 <div className="font-medium">
-                                    Anomaly detected at {anomaly.timestamp} - Value: {anomaly.value}
+                                    System Event at {anomaly.timestamp} - Value: {anomaly.value}
                                     {anomaly.value > displayedData[displayedData.indexOf(anomaly) - 1]?.value ? (
                                         <TrendingUp className="h-4 w-4 inline ml-2 text-red-500" />
                                     ) : (
@@ -291,10 +291,10 @@ const AnomalyDetector = ({ isDarkMode }) => {
 
             {/* Footer */}
             <div className="mt-4 text-sm opacity-75">
-                System automatically detects anomalies using adaptive thresholds • Sensitivity: {sensitivity}σ
+                System automatically detects important system event using adaptive thresholds • Sensitivity: {sensitivity}σ
             </div>
         </div>
     );
 };
 
-export default AnomalyDetector;
+export default SystemEvents;
