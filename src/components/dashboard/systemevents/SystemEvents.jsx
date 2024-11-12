@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import EventDetailsModal from "./EventDetailsModal.jsx";
 import MetricsPanel from "./MetricsPanel.jsx";
 import AiInsightsPanel from "./AiInsightsPanel.jsx";
+import QuickActions from "./QuickActions.jsx";
+import HistoricalComparison from "./HistoricalComparision.jsx";
+import EventFilters from "./EventFilters.jsx";
 
 const SystemEvents = ({isDarkMode}) => {
     const severityLevels = {
@@ -116,6 +119,44 @@ const SystemEvents = ({isDarkMode}) => {
         link.click();
         document.body.removeChild(link);
     };
+
+    const [filters, setFilters] = useState({
+        severity: [],
+        type: []
+    });
+
+    const handleQuickAction = (action) => {
+        switch(action) {
+            case 'diagnostics':
+                Swal.fire({
+                    title: 'Running Diagnostics',
+                    text: 'System analysis in progress...',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                break;
+            case 'scale':
+                Swal.fire({
+                    title: 'Scaling Resources',
+                    text: 'Adjusting system resources...',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                break;
+            case 'security':
+                Swal.fire({
+                    title: 'Security Scan',
+                    text: 'Scanning system for vulnerabilities...',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                break;
+        }
+    };
+
 
     return (
         <div className={`mt-8 p-6 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
@@ -302,6 +343,21 @@ const SystemEvents = ({isDarkMode}) => {
                 event={selectedEvent}
                 onClose={() => setSelectedEvent(null)}
                 isDarkMode={isDarkMode}
+            />
+
+            <QuickActions
+                isDarkMode={isDarkMode}
+                onAction={handleQuickAction}
+            />
+
+            <HistoricalComparison
+                displayedData={displayedData}
+                isDarkMode={isDarkMode}
+            />
+
+            <EventFilters
+                isDarkMode={isDarkMode}
+                onFilterChange={setFilters}
             />
 
             {/* Footer */}
