@@ -32,8 +32,8 @@ const HeroSection = () => {
     // Pre-calculate random values for floating elements
     const floatingElements = useMemo(() => {
         return Array(20).fill(0).map(() => ({
-            width: Math.random() * 300 + 50,
-            height: Math.random() * 300 + 50,
+            width: Math.random() * 10 + 50,
+            height: Math.random() * 10 + 50,
             top: Math.random() * 100,
             left: Math.random() * 100,
             duration: Math.random() * 10 + 10
@@ -93,7 +93,7 @@ const HeroSection = () => {
                             onClick={() => navigate('/dashboard')}
                             className="group relative px-8 py-4 bg-indigo-600 text-white rounded-xl overflow-hidden hover:bg-indigo-700 transition-colors"
                             style={{
-                                transform: isHovered ? `perspective(1000px) rotateY(${(mousePosition.x - 150) / 20}deg) rotateX(${-(mousePosition.y - 50) / 20}deg)` : 'none',
+                                transform: isHovered ? `perspective(1000px) rotateY(${(mousePosition.x - 150) / 60}deg) rotateX(${-(mousePosition.y - 50) / 60}deg)` : 'none',
                                 transition: isHovered ? 'none' : 'transform 0.5s ease',
                             }}
                         >
@@ -117,7 +117,7 @@ const HeroSection = () => {
                     {/* Stats section */}
                     <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto px-4">
                         {[
-                            {icon: BarChart3, label: 'Active Users', value: '10,000+'},
+                            {icon: BarChart3, label: 'Active users', value: '10,000+'},
                             {icon: Shield, label: 'Data Protected', value: '99.9%'},
                             {icon: Zap, label: 'Response Time', value: '<100ms'},
                         ].map(({icon: Icon, label, value}, index) => (

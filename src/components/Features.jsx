@@ -27,20 +27,20 @@ const FeaturesSection = () => {
     const features = [
         {
             icon: Zap,
-            title: "Lightning Fast",
-            description: "Optimized for speed and performance, ensuring smooth operation at any scale.",
+            title: "Lightning-Fast Performance",
+            description: "Experience blazing-fast load times with our optimized architecture. Built for scale, our dashboard handles millions of data points without breaking a sweat, ensuring smooth operation even during peak loads.",
             color: "bg-gradient-to-br from-yellow-400/20 to-orange-500/20 text-yellow-400"
         },
         {
             icon: Shield,
-            title: "Enterprise Security",
-            description: "Bank-grade security with advanced encryption and authentication.",
+            title: "Enterprise-Grade Security",
+            description: "Rest easy with military-grade encryption, multi-factor authentication, and real-time threat monitoring. Our security infrastructure exceeds industry standards and keeps your data protected 24/7.",
             color: "bg-gradient-to-br from-purple-400/20 to-pink-500/20 text-purple-400"
         },
         {
             icon: BarChart3,
-            title: "Advanced Analytics",
-            description: "Deep insights with customizable dashboards and reports.",
+            title: "Intelligent DashboardMetrics Suite",
+            description: "Transform raw data into actionable insights with our AI-powered analytics. Create custom dashboards, generate predictive reports, and unlock hidden patterns in your data with just a few clicks.",
             color: "bg-gradient-to-br from-indigo-400/20 to-blue-500/20 text-indigo-400"
         }
     ];

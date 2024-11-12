@@ -17,8 +17,8 @@ const CTASection = () => {
                         key={i}
                         className="absolute bg-white/10 rounded-full blur-sm"
                         style={{
-                            width: `${Math.random() * 100 + 50}px`,
-                            height: `${Math.random() * 100 + 50}px`,
+                            width: `${Math.random() * 10 + 50}px`,
+                            height: `${Math.random() * 10 + 50}px`,
                             top: `${Math.random() * 100}%`,
                             left: `${Math.random() * 100}%`,
                             animation: `float ${Math.random() * 10 + 10}s infinite linear`
