@@ -1,8 +1,14 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+# Node modules
+node_modules/
+.vite/
+
+# Build outputs
+dist/
+build/
+
+# Map files
+*.map
+
+# Vite dependencies
+.vite/deps/
+.idea/
