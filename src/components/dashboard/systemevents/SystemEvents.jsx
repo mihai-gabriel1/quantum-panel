@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { AlertCircle, TrendingUp, TrendingDown, Bell, BellOff, Settings, Download, Share2, Filter } from 'lucide-react';
+import React, {useState, useEffect} from 'react';
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area} from 'recharts';
+import {AlertCircle, TrendingUp, TrendingDown, Bell, BellOff, Settings, Download, Share2} from 'lucide-react';
 import Swal from 'sweetalert2';
+import EventDetailsModal from "./EventDetailsModal.jsx";
+import MetricsPanel from "./MetricsPanel.jsx";
+import AiInsightsPanel from "./AiInsightsPanel.jsx";
 
-const SystemEvents = ({ isDarkMode }) => {
-    // Predefined sequence of data points with planned anomalies
+const SystemEvents = ({isDarkMode}) => {
+    const severityLevels = {
+        CRITICAL: {value: 400, color: 'red'},
+        HIGH: {value: 300, color: 'orange'},
+        MEDIUM: {value: 200, color: 'yellow'},
+        LOW: {value: 150, color: 'blue'}
+    };
+
     const initialData = [
-        { timestamp: '09:00', value: 145, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '09:15', value: 152, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '09:30', value: 148, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '09:45', value: 289, isAnomaly: true, threshold: 200, description: "Sudden traffic spike" },
-        { timestamp: '10:00', value: 146, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '10:15', value: 351, isAnomaly: true, threshold: 200, description: "Server overload detected" },
-        { timestamp: '10:30', value: 147, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '10:45', value: 143, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '11:00', value: 420, isAnomaly: true, threshold: 200, description: "Potential security breach" },
-        { timestamp: '11:15', value: 145, isAnomaly: false, threshold: 200, description: null },
-        { timestamp: '11:30', value: 380, isAnomaly: true, threshold: 200, description: "Database connection spike" },
-        { timestamp: '11:45', value: 150, isAnomaly: false, threshold: 200, description: null }
+        {timestamp: '09:00', value: 145, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '09:15', value: 152, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '09:30', value: 148, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '09:45', value: 289, isAnomaly: true, threshold: 200, description: "Sudden traffic spike"},
+        {timestamp: '10:00', value: 146, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '10:15', value: 351, isAnomaly: true, threshold: 200, description: "Server overload detected"},
+        {timestamp: '10:30', value: 147, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '10:45', value: 143, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '11:00', value: 420, isAnomaly: true, threshold: 200, description: "Potential security breach"},
+        {timestamp: '11:15', value: 145, isAnomaly: false, threshold: 200, description: null},
+        {timestamp: '11:30', value: 380, isAnomaly: true, threshold: 200, description: "Database connection spike"},
+        {timestamp: '11:45', value: 150, isAnomaly: false, threshold: 200, description: null}
     ];
 
     const [displayedData, setDisplayedData] = useState([initialData[0]]);
     const [currentIndex, setCurrentIndex] = useState(1);
     const [activeAnomalies, setActiveAnomalies] = useState([]);
-    const [sensitivity, setSensitivity] = useState(2);
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const [selectedTimeRange, setSelectedTimeRange] = useState('1h');
     const [showSettings, setShowSettings] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [anomalyStats, setAnomalyStats] = useState({
         total: 0,
         lastHour: 0,
@@ -55,15 +63,6 @@ const SystemEvents = ({ isDarkMode }) => {
         });
     };
 
-    const showBrowserNotification = (anomaly) => {
-        if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification('Anomaly Detected', {
-                body: `${anomaly.description || 'Unusual value detected'} (Value: ${anomaly.value})`,
-                icon: '/path-to-your-icon.png'
-            });
-        }
-    };
-
     // Sequential data addition
     useEffect(() => {
         const interval = setInterval(() => {
@@ -73,7 +72,6 @@ const SystemEvents = ({ isDarkMode }) => {
 
                 if (newDataPoint.isAnomaly) {
                     if (notificationsEnabled) {
-                        showBrowserNotification(newDataPoint);
                         showSwalNotification(newDataPoint);
                     }
                 }
@@ -85,7 +83,7 @@ const SystemEvents = ({ isDarkMode }) => {
         return () => clearInterval(interval);
     }, [currentIndex, notificationsEnabled]);
 
-    // Update anomaly stats
+    // Update stats
     useEffect(() => {
         const anomalies = displayedData.filter(point => point.isAnomaly);
         setActiveAnomalies(anomalies);
@@ -103,15 +101,9 @@ const SystemEvents = ({ isDarkMode }) => {
         });
     }, [displayedData]);
 
-    useEffect(() => {
-        if ('Notification' in window) {
-            Notification.requestPermission();
-        }
-    }, []);
-
     const handleExport = () => {
         const csvContent = 'data:text/csv;charset=utf-8,' +
-            'Timestamp,Value,Is Anomaly,Description\n' +
+            'Timestamp,Value,Is Event,Description\n' +
             displayedData.map(row =>
                 `${row.timestamp},${row.value},${row.isAnomaly},${row.description || ''}`
             ).join('\n');
@@ -119,7 +111,7 @@ const SystemEvents = ({ isDarkMode }) => {
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
         link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'anomaly_data.csv');
+        link.setAttribute('download', 'system_events.csv');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -135,20 +127,20 @@ const SystemEvents = ({ isDarkMode }) => {
                         <div className="flex items-center space-x-2">
                             {notificationsEnabled ? (
                                 <Bell className="h-5 w-5 cursor-pointer text-blue-500"
-                                      onClick={() => setNotificationsEnabled(false)} />
+                                      onClick={() => setNotificationsEnabled(false)}/>
                             ) : (
                                 <BellOff className="h-5 w-5 cursor-pointer text-gray-500"
-                                         onClick={() => setNotificationsEnabled(true)} />
+                                         onClick={() => setNotificationsEnabled(true)}/>
                             )}
                             <Settings className="h-5 w-5 cursor-pointer"
-                                      onClick={() => setShowSettings(!showSettings)} />
+                                      onClick={() => setShowSettings(!showSettings)}/>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <Download className="h-5 w-5 cursor-pointer" onClick={handleExport} />
-                        <Share2 className="h-5 w-5 cursor-pointer" />
+                        <Download className="h-5 w-5 cursor-pointer" onClick={handleExport}/>
+                        <Share2 className="h-5 w-5 cursor-pointer"/>
                         <div className="text-sm">
-                            Last updated: {initialData[initialData.length - 1].timestamp}
+                            Last updated: {displayedData[displayedData.length - 1].timestamp}
                         </div>
                     </div>
                 </div>
@@ -159,23 +151,8 @@ const SystemEvents = ({ isDarkMode }) => {
                 <div className={`mb-4 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     <div className="flex items-center justify-between space-x-4">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Sensitivity</label>
-                            <input
-                                type="range"
-                                min="1"
-                                max="5"
-                                step="0.5"
-                                value={sensitivity}
-                                onChange={(e) => setSensitivity(parseFloat(e.target.value))}
-                                className="w-48"
-                            />
-                            <span className="ml-2 text-sm">{sensitivity}</span>
-                        </div>
-                        <div>
                             <label className="block text-sm font-medium mb-1">Time Range</label>
                             <select
-                                value={selectedTimeRange}
-                                onChange={(e) => setSelectedTimeRange(e.target.value)}
                                 className={`rounded border p-1 ${isDarkMode ? 'bg-gray-600 border-gray-500' : 'bg-white border-gray-300'}`}
                             >
                                 <option value="1h">Last Hour</option>
@@ -215,9 +192,9 @@ const SystemEvents = ({ isDarkMode }) => {
                                 <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
                             </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#555' : '#ccc'} />
-                        <XAxis dataKey="timestamp" stroke={isDarkMode ? '#ccc' : '#000'} />
-                        <YAxis stroke={isDarkMode ? '#ccc' : '#000'} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#555' : '#ccc'}/>
+                        <XAxis dataKey="timestamp" stroke={isDarkMode ? '#ccc' : '#000'}/>
+                        <YAxis stroke={isDarkMode ? '#ccc' : '#000'}/>
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: isDarkMode ? '#1f2937' : 'white',
@@ -232,7 +209,7 @@ const SystemEvents = ({ isDarkMode }) => {
                             stroke="#2563eb"
                             fill="url(#valueGradient)"
                             dot={(props) => {
-                                const { cx, cy, payload } = props;
+                                const {cx, cy, payload} = props;
                                 if (payload.isAnomaly) {
                                     return (
                                         <circle
@@ -241,6 +218,7 @@ const SystemEvents = ({ isDarkMode }) => {
                                             r={6}
                                             fill="#ef4444"
                                             stroke="none"
+                                            onClick={() => setSelectedEvent(payload)}
                                         />
                                     );
                                 }
@@ -258,6 +236,27 @@ const SystemEvents = ({ isDarkMode }) => {
                 </ResponsiveContainer>
             </div>
 
+            {/* Interactive Timeline */}
+            <div className={`mb-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                <div className="relative h-2">
+                    <div className={`h-full ${isDarkMode ? 'bg-gray-600' : 'bg-gray-300'} rounded-full`}></div>
+                    <div className="absolute top-0 left-0 w-full">
+                        {initialData.map((point, idx) => (
+                            <div
+                                key={idx}
+                                className={`absolute w-3 h-3 transform -translate-x-1/2 -translate-y-1/4
+                                    ${idx <= currentIndex ? 'cursor-pointer' : 'opacity-50'}
+                                    ${point.isAnomaly
+                                    ? 'bg-red-500'
+                                    : isDarkMode ? 'bg-blue-400' : 'bg-blue-500'
+                                } rounded-full`}
+                                style={{left: `${(idx / (initialData.length - 1)) * 100}%`}}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
             {/* Anomaly Alerts */}
             {activeAnomalies.length > 0 && (
                 <div className="space-y-2">
@@ -268,14 +267,14 @@ const SystemEvents = ({ isDarkMode }) => {
                                 isDarkMode ? 'bg-red-800/50 text-red-100 border-red-600' : 'bg-red-50 border-red-200 text-red-700'
                             }`}
                         >
-                            <AlertCircle className="h-4 w-4 mr-2" />
+                            <AlertCircle className="h-4 w-4 mr-2"/>
                             <div className="flex-1">
                                 <div className="font-medium">
                                     System Event at {anomaly.timestamp} - Value: {anomaly.value}
                                     {anomaly.value > displayedData[displayedData.indexOf(anomaly) - 1]?.value ? (
-                                        <TrendingUp className="h-4 w-4 inline ml-2 text-red-500" />
+                                        <TrendingUp className="h-4 w-4 inline ml-2 text-red-500"/>
                                     ) : (
-                                        <TrendingDown className="h-4 w-4 inline ml-2 text-red-500" />
+                                        <TrendingDown className="h-4 w-4 inline ml-2 text-red-500"/>
                                     )}
                                 </div>
                                 {anomaly.description && (
@@ -289,9 +288,25 @@ const SystemEvents = ({ isDarkMode }) => {
                 </div>
             )}
 
+            <AiInsightsPanel
+                displayedData={displayedData}
+                isDarkMode={isDarkMode}
+            />
+
+            <MetricsPanel
+                displayedData={displayedData}
+                isDarkMode={isDarkMode}
+            />
+
+            <EventDetailsModal
+                event={selectedEvent}
+                onClose={() => setSelectedEvent(null)}
+                isDarkMode={isDarkMode}
+            />
+
             {/* Footer */}
             <div className="mt-4 text-sm opacity-75">
-                System automatically detects important system event using adaptive thresholds • Sensitivity: {sensitivity}σ
+                System automatically detects important system events using adaptive thresholds
             </div>
         </div>
     );

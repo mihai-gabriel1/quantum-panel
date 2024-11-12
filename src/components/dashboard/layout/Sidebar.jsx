@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, X, Home, Users, Settings, HelpCircle } from 'lucide-react';
+import {BarChart3, X, FileWarning, Home, Users, Settings, HelpCircle, LineChartIcon} from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SidebarItem from '../components/SidebarItem';
 
@@ -11,7 +11,7 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
         { icon: Home, label: 'Dashboard', path: '/dashboard' },
         { icon: Users, label: 'Users', path: '/users' },
         { icon: BarChart3, label: 'Analytics', path: '/analytics' },
-        { icon: BarChart3, label: 'System Events', path: '/system-events' }, // Use a suitable icon here
+        { icon: FileWarning, label: 'System Events', path: '/system-events' }, // Use a suitable icon here
         { icon: Settings, label: 'Settings', path: '/settings' },
         { icon: HelpCircle, label: 'Help', path: '/help' },
     ];
