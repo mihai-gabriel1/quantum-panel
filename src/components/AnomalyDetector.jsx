@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { AlertCircle, TrendingUp, TrendingDown, Bell, BellOff, Settings, Download, Share2, Filter } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 const AnomalyDetector = ({ isDarkMode }) => {
-    const [data, setData] = useState([
-        { timestamp: '09:00', value: 145, isAnomaly: false, threshold: 200 },
-        { timestamp: '10:00', value: 152, isAnomaly: false, threshold: 200 },
-        { timestamp: '11:00', value: 148, isAnomaly: false, threshold: 200 },
-        { timestamp: '12:00', value: 289, isAnomaly: true, threshold: 200 },
-        { timestamp: '13:00', value: 146, isAnomaly: false, threshold: 200 },
-        { timestamp: '14:00', value: 351, isAnomaly: true, threshold: 200 },
-        { timestamp: '15:00', value: 147, isAnomaly: false, threshold: 200 },
-        { timestamp: '16:00', value: 143, isAnomaly: false, threshold: 200 }
-    ]);
+    // Predefined sequence of data points with planned anomalies
+    const initialData = [
+        { timestamp: '09:00', value: 145, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '09:15', value: 152, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '09:30', value: 148, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '09:45', value: 289, isAnomaly: true, threshold: 200, description: "Sudden traffic spike" },
+        { timestamp: '10:00', value: 146, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '10:15', value: 351, isAnomaly: true, threshold: 200, description: "Server overload detected" },
+        { timestamp: '10:30', value: 147, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '10:45', value: 143, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '11:00', value: 420, isAnomaly: true, threshold: 200, description: "Potential security breach" },
+        { timestamp: '11:15', value: 145, isAnomaly: false, threshold: 200, description: null },
+        { timestamp: '11:30', value: 380, isAnomaly: true, threshold: 200, description: "Database connection spike" },
+        { timestamp: '11:45', value: 150, isAnomaly: false, threshold: 200, description: null }
+    ];
 
+    const [displayedData, setDisplayedData] = useState([initialData[0]]);
+    const [currentIndex, setCurrentIndex] = useState(1);
     const [activeAnomalies, setActiveAnomalies] = useState([]);
     const [sensitivity, setSensitivity] = useState(2);
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -25,56 +33,61 @@ const AnomalyDetector = ({ isDarkMode }) => {
         trend: 'stable'
     });
 
-    // Adaptive threshold calculation
-    const calculateThreshold = (dataPoints) => {
-        const mean = dataPoints.reduce((acc, point) => acc + point.value, 0) / dataPoints.length;
-        const stdDev = Math.sqrt(
-            dataPoints.reduce((acc, point) => acc + Math.pow(point.value - mean, 2), 0) / dataPoints.length
-        );
-        return mean + (stdDev * sensitivity);
-    };
+    const showSwalNotification = (anomaly) => {
+        const icon = anomaly.value > 300 ? 'error' : 'warning';
+        const title = anomaly.value > 300 ? 'Critical Anomaly Detected!' : 'Anomaly Detected';
 
-    const detectAnomalies = (newValue, recentData) => {
-        const threshold = calculateThreshold(recentData);
-        return newValue > threshold;
-    };
-
-    const addDataPoint = () => {
-        const lastValue = data[data.length - 1].value;
-        const newValue = lastValue + (Math.random() > 0.8 ? 100 : Math.random() * 10 - 5);
-        const newTimestamp = new Date(new Date().getTime() + 60000).toLocaleTimeString('en-US', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit'
+        Swal.fire({
+            title: title,
+            text: `${anomaly.description || 'Unusual value detected'} (Value: ${anomaly.value})`,
+            icon: icon,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            background: isDarkMode ? '#1f2937' : 'white',
+            color: isDarkMode ? 'white' : 'black',
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         });
-
-        const recentData = data.slice(-10);
-        const threshold = calculateThreshold(recentData);
-        const isAnomaly = detectAnomalies(newValue, recentData);
-
-        if (isAnomaly && notificationsEnabled) {
-            showNotification(newValue, newTimestamp);
-        }
-
-        setData(prev => [...prev.slice(1), {
-            timestamp: newTimestamp,
-            value: Math.round(newValue),
-            isAnomaly,
-            threshold
-        }]);
     };
 
-    const showNotification = (value, timestamp) => {
+    const showBrowserNotification = (anomaly) => {
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('Anomaly Detected', {
-                body: `Unusual value detected: ${value} at ${timestamp}`,
+                body: `${anomaly.description || 'Unusual value detected'} (Value: ${anomaly.value})`,
                 icon: '/path-to-your-icon.png'
             });
         }
     };
 
+    // Sequential data addition
     useEffect(() => {
-        const anomalies = data.filter(point => point.isAnomaly);
+        const interval = setInterval(() => {
+            if (currentIndex < initialData.length) {
+                const newDataPoint = initialData[currentIndex];
+                setDisplayedData(prev => [...prev, newDataPoint]);
+
+                if (newDataPoint.isAnomaly) {
+                    if (notificationsEnabled) {
+                        showBrowserNotification(newDataPoint);
+                        showSwalNotification(newDataPoint);
+                    }
+                }
+
+                setCurrentIndex(prev => prev + 1);
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [currentIndex, notificationsEnabled]);
+
+    // Update anomaly stats
+    useEffect(() => {
+        const anomalies = displayedData.filter(point => point.isAnomaly);
         setActiveAnomalies(anomalies);
 
         setAnomalyStats({
@@ -86,14 +99,9 @@ const AnomalyDetector = ({ isDarkMode }) => {
                 anomalyTime.setHours(parseInt(hours), parseInt(minutes));
                 return (timestamp - anomalyTime) <= 3600000;
             }).length,
-            trend: anomalies.length > 3 ? 'increasing' : 'stable'
+            trend: anomalies.length >= 2 ? 'increasing' : 'stable'
         });
-    }, [data]);
-
-    useEffect(() => {
-        const interval = setInterval(addDataPoint, 3000);
-        return () => clearInterval(interval);
-    }, [notificationsEnabled]);
+    }, [displayedData]);
 
     useEffect(() => {
         if ('Notification' in window) {
@@ -103,8 +111,10 @@ const AnomalyDetector = ({ isDarkMode }) => {
 
     const handleExport = () => {
         const csvContent = 'data:text/csv;charset=utf-8,' +
-            'Timestamp,Value,Is Anomaly\n' +
-            data.map(row => `${row.timestamp},${row.value},${row.isAnomaly}`).join('\n');
+            'Timestamp,Value,Is Anomaly,Description\n' +
+            displayedData.map(row =>
+                `${row.timestamp},${row.value},${row.isAnomaly},${row.description || ''}`
+            ).join('\n');
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
@@ -138,7 +148,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
                         <Download className="h-5 w-5 cursor-pointer" onClick={handleExport} />
                         <Share2 className="h-5 w-5 cursor-pointer" />
                         <div className="text-sm">
-                            Last updated: {data[data.length - 1].timestamp}
+                            Last updated: {initialData[initialData.length - 1].timestamp}
                         </div>
                     </div>
                 </div>
@@ -188,14 +198,9 @@ const AnomalyDetector = ({ isDarkMode }) => {
                     <div className="text-2xl font-bold">{anomalyStats.lastHour}</div>
                 </div>
                 <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                    <div className="text-sm font-medium mb-1">Trend</div>
+                    <div className="text-sm font-medium mb-1">Progress</div>
                     <div className="text-2xl font-bold flex items-center">
-                        {anomalyStats.trend}
-                        {anomalyStats.trend === 'increasing' ? (
-                            <TrendingUp className="h-6 w-6 ml-2 text-red-500" />
-                        ) : (
-                            <TrendingDown className="h-6 w-6 ml-2 text-green-500" />
-                        )}
+                        {Math.round((currentIndex / initialData.length) * 100)}%
                     </div>
                 </div>
             </div>
@@ -203,7 +208,7 @@ const AnomalyDetector = ({ isDarkMode }) => {
             {/* Chart */}
             <div className="h-64 mb-6">
                 <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={data}>
+                    <AreaChart data={displayedData}>
                         <defs>
                             <linearGradient id="valueGradient" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3}/>
@@ -264,14 +269,21 @@ const AnomalyDetector = ({ isDarkMode }) => {
                             }`}
                         >
                             <AlertCircle className="h-4 w-4 mr-2" />
-                            <span>
-                                Anomaly detected at {anomaly.timestamp} - Value: {anomaly.value}
-                                {anomaly.value > data[data.indexOf(anomaly) - 1]?.value ? (
-                                    <TrendingUp className="h-4 w-4 inline ml-2 text-red-500" />
-                                ) : (
-                                    <TrendingDown className="h-4 w-4 inline ml-2 text-red-500" />
+                            <div className="flex-1">
+                                <div className="font-medium">
+                                    Anomaly detected at {anomaly.timestamp} - Value: {anomaly.value}
+                                    {anomaly.value > displayedData[displayedData.indexOf(anomaly) - 1]?.value ? (
+                                        <TrendingUp className="h-4 w-4 inline ml-2 text-red-500" />
+                                    ) : (
+                                        <TrendingDown className="h-4 w-4 inline ml-2 text-red-500" />
+                                    )}
+                                </div>
+                                {anomaly.description && (
+                                    <div className="text-sm mt-1 opacity-75">
+                                        {anomaly.description}
+                                    </div>
                                 )}
-                            </span>
+                            </div>
                         </div>
                     ))}
                 </div>
