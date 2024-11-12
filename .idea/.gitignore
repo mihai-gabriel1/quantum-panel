@@ -11,3 +11,4 @@ build/
 
 # Vite dependencies
 .vite/deps/
+.idea/
