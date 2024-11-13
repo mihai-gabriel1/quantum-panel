@@ -81,7 +81,7 @@ const Header = ({setIsSidebarOpen, isDarkMode, setIsDarkMode}) => {
     };
 
     return (
-        <header className={`fixed top-0 right-0 left-0 md:left-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} z-10`}>
+        <header className={` left-0 md:left-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} z-10`}>
             <div className="flex items-center justify-between p-4">
                 <button
                     onClick={() => setIsSidebarOpen(true)}
@@ -91,7 +91,7 @@ const Header = ({setIsSidebarOpen, isDarkMode, setIsDarkMode}) => {
                 </button>
 
                 <div className="flex items-center flex-1 px-4 space-x-4">
-                    <div className={`flex items-center max-w-md flex-1 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg px-4 py-2`}>
+                    <div className={`flex items-center max-w-[205px] flex-1 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg px-4 py-2`}>
                         <Search className={`h-5 w-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}/>
                         <input
                             type="text"
@@ -112,7 +112,7 @@ const Header = ({setIsSidebarOpen, isDarkMode, setIsDarkMode}) => {
                         </button>
 
                         {isNotificationsOpen && (
-                            <div className={`absolute right-0 mt-2 w-80 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
+                            <div className={`z-50 absolute right-0 mt-2 w-80 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
                                 <div className="p-4 border-b border-gray-200">
                                     <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Notifications</h3>
                                 </div>

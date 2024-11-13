@@ -66,6 +66,7 @@ const DashboardLayout = ({ children }) => {
                 isOpen={isSidebarOpen}
                 setIsOpen={setIsSidebarOpen}
                 isDarkMode={isDarkMode}
+                setIsDarkMode={handleDarkModeToggle}
             />
 
             <div className={`md:ml-64 min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
