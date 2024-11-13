@@ -39,7 +39,7 @@ const EventFilters = ({ isDarkMode, onFilterChange }) => {
         <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
             <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Severity</h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex w-full flex-wrap gap-1">
                     {filterOptions.severity.map(({ label, value, color }) => (
                         <button
                             key={value}

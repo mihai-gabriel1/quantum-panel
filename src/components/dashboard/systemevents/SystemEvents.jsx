@@ -162,7 +162,7 @@ const SystemEvents = ({isDarkMode}) => {
         <div className={`mt-8 p-6 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
             {/* Header */}
             <div className="mb-6">
-                <div className="flex items-center justify-between">
+                <div className="sm:flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <h2 className="text-xl font-semibold">Real-Time System Event Detection</h2>
                         <div className="flex items-center space-x-2">
@@ -177,7 +177,7 @@ const SystemEvents = ({isDarkMode}) => {
                                       onClick={() => setShowSettings(!showSettings)}/>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 mt-2 sm:mt-0">
                         <Download className="h-5 w-5 cursor-pointer" onClick={handleExport}/>
                         <Share2 className="h-5 w-5 cursor-pointer"/>
                         <div className="text-sm">
@@ -206,7 +206,7 @@ const SystemEvents = ({isDarkMode}) => {
             )}
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid sm:grid-cols-3 gap-4 mb-6">
                 <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     <div className="text-sm font-medium mb-1">Total Events</div>
                     <div className="text-2xl font-bold">{anomalyStats.total}</div>

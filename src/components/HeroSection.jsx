@@ -91,7 +91,7 @@ const HeroSection = () => {
                     <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
                         <button
                             onClick={() => navigate('/dashboard')}
-                            className="group relative px-8 py-4 bg-indigo-600 text-white rounded-xl overflow-hidden hover:bg-indigo-700 transition-colors"
+                            className="text-center items-center group relative px-8 py-4 bg-indigo-600 text-white rounded-xl overflow-hidden hover:bg-indigo-700 transition-colors"
                             style={{
                                 transform: isHovered ? `perspective(1000px) rotateY(${(mousePosition.x - 150) / 60}deg) rotateX(${-(mousePosition.y - 50) / 60}deg)` : 'none',
                                 transition: isHovered ? 'none' : 'transform 0.5s ease',

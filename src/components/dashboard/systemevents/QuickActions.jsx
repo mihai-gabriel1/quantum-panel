@@ -29,7 +29,7 @@ const QuickActions = ({ isDarkMode, onAction }) => {
     return (
         <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
             <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-3 gap-4">
                 {actions.map(({ label, icon: Icon, action, color, description }) => (
                     <button
                         key={action}

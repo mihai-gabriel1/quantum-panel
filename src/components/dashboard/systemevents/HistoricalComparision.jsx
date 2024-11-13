@@ -25,7 +25,7 @@ const HistoricalComparison = ({ displayedData, isDarkMode }) => {
 
     return (
         <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-            <div className="flex items-center justify-between mb-4">
+            <div className="max-sm:flex-col flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Historical Comparison</h3>
                 <select
                     value={comparisonPeriod}
@@ -40,7 +40,7 @@ const HistoricalComparison = ({ displayedData, isDarkMode }) => {
                 </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
                 <div className={`p-4 rounded-lg ${
                     isDarkMode ? 'bg-gray-800' : 'bg-white'
                 }`}>

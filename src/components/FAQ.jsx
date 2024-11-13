@@ -4,7 +4,7 @@ import { Plus, Minus, HelpCircle } from 'lucide-react';
 const FAQItem = ({ question, answer, isOpen, onClick }) => (
     <div className="border-b border-white/10 last:border-0">
         <button
-            className="w-full py-6 text-left flex justify-between items-start focus:outline-none"
+            className="w-full p-6 text-left flex justify-between items-start focus:outline-none"
             onClick={onClick}
         >
             <span className="text-lg font-medium text-white pr-8">{question}</span>
@@ -15,7 +15,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => (
             )}
         </button>
 
-        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        <div className={`px-4 transition-all duration-300 ease-in-out overflow-hidden ${
             isOpen ? 'max-h-96 opacity-100 mb-6' : 'max-h-0 opacity-0'
         }`}>
             <p className="text-gray-400">{answer}</p>

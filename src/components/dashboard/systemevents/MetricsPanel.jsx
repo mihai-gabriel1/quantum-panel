@@ -19,7 +19,7 @@ const MetricsPanel = ({ displayedData, isDarkMode }) => {
     const metrics = calculateMetrics();
 
     return (
-        <div className="grid grid-cols-4 gap-4 mt-6">
+        <div className="grid sm:grid-cols-4 gap-4 mt-6">
             <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                 <div className="flex items-center justify-between">
                     <div className="text-sm font-medium">Current</div>

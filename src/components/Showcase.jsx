@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, BarChart2, Activity, LineChart } from 'lucide-react';
 import dashhome from "../assets/dashhome.png"
 import dashmetrics from "../assets/metrics.png"
+import dashevents from "../assets/events.png"
 
 const ShowcaseCard = ({ item, isHovered, onHover }) => {
     const content = {
@@ -21,7 +22,7 @@ const ShowcaseCard = ({ item, isHovered, onHover }) => {
             title: "Smart Reporting Hub",
             description: "Generate comprehensive reports powered by AI insights, with automated scheduling and smart data analysis.",
             features: ["AI-Powered Insights", "Custom Report Builder", "Automated Scheduling"],
-            imageSrc: "/api/placeholder/800/600"
+            imageSrc: dashevents
         }
     };
 

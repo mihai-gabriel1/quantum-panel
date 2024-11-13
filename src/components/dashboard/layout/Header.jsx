@@ -112,7 +112,7 @@ const Header = ({setIsSidebarOpen, isDarkMode, setIsDarkMode}) => {
                         </button>
 
                         {isNotificationsOpen && (
-                            <div className={`z-50 absolute right-0 mt-2 w-80 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
+                            <div className={`z-50 absolute right-0 mt-2 w-[260px] sm:w-80 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
                                 <div className="p-4 border-b border-gray-200">
                                     <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Notifications</h3>
                                 </div>
