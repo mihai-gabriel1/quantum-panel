@@ -4,9 +4,9 @@ import { ArrowRight, Sparkles, Zap } from 'lucide-react';
 const IntegrationCard = ({ name, description, icon: Icon, comingSoon }) => (
     <div className="group relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-purple-600/10 rounded-lg transform transition-transform duration-500 group-hover:scale-105" />
-        <div className="relative p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 transition-colors group-hover:bg-white/10">
+        <div className="relative p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 transition-colors group-hover:bg-white/10 h-full">
             {comingSoon && (
-                <div className="absolute top-4 right-4">
+                <div className="absolute top-1 right-4">
                     <span className="inline-flex items-center px-2 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-xs text-indigo-300">
                         Coming Soon
                     </span>
@@ -80,7 +80,7 @@ const IntegrationsSection = () => {
     ];
 
     return (
-        <section id="integrations" className="py-24 bg-gradient-to-b from-gray-900 to-indigo-900 relative overflow-hidden">
+        <section id="integrations" className="py-16 bg-gradient-to-b from-gray-900 to-indigo-900 relative overflow-hidden">
             {/* Background effects */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0,transparent_100%)]" />

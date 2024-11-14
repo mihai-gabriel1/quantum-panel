@@ -104,7 +104,7 @@ const HeroSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"/>
                         </button>
 
-                        <button className="w-full sm:w-auto group px-8 py-4 bg-white/10 text-white rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                        <button className="sm:w-auto group px-8 py-4 bg-white/10 text-white rounded-xl border border-white/20 hover:bg-white/20 transition-all">
                             <span className="flex items-center justify-center">
                                 View Features
                                 <span className="ml-2 group-hover:rotate-45 transition-transform">

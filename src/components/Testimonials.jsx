@@ -40,7 +40,7 @@ const TestimonialsSection = () => {
             name: "Sarah Johnson",
             role: "CTO",
             company: "TechCorp",
-            image: "/api/placeholder/100/100",
+            image: "https://randomuser.me/api/portraits/women/44.jpg", // Random user image
             quote: "Quantum Panel transformed our analytics workflow. The AI-driven insights have been game-changing for our decision-making process, leading to a 40% increase in team efficiency.",
             rating: 5
         },
@@ -48,7 +48,7 @@ const TestimonialsSection = () => {
             name: "Michael Chen",
             role: "Product Manager",
             company: "TeachMeCode",
-            image: "/api/placeholder/100/100",
+            image: "https://randomuser.me/api/portraits/men/32.jpg", // Random user image
             quote: "The speed and security features are unmatched. We've seen a remarkable improvement in our team's productivity since switching to Quantum Panel. The customization options are endless.",
             rating: 5
         },
@@ -56,7 +56,7 @@ const TestimonialsSection = () => {
             name: "Emily Rodriguez",
             role: "Data Scientist",
             company: "DataDrive",
-            image: "/api/placeholder/100/100",
+            image: "https://randomuser.me/api/portraits/women/68.jpg", // Random user image
             quote: "As a data scientist, I'm impressed by the advanced analytics capabilities. The real-time processing and visualization tools have revolutionized how we handle big data.",
             rating: 5
         }

@@ -6,7 +6,7 @@ const FeatureCard = ({ icon: Icon, title, description, color }) => {
     return (
         <div className="group relative">
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-purple-600/10 rounded-2xl transform transition-transform duration-500 group-hover:scale-105" />
-            <div className="relative p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 transition-colors group-hover:bg-white/10">
+            <div className="relative p-8 h-full rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 transition-colors group-hover:bg-white/10">
                 <div className={`inline-flex items-center justify-center h-14 w-14 rounded-xl ${color} mb-6 transform transition-transform group-hover:scale-110 group-hover:rotate-3`}>
                     <Icon className="h-7 w-7" />
                 </div>
@@ -46,7 +46,7 @@ const FeaturesSection = () => {
     ];
 
     return (
-        <div id="features" className="py-24 bg-gradient-to-b from-indigo-900 via-gray-800 to-gray-900 relative overflow-hidden">
+        <div id="features" className="bg-gradient-to-b from-indigo-900 via-gray-800 to-gray-900 relative overflow-hidden">
             {/* Background effects */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0,transparent_100%)]" />
