@@ -15,24 +15,46 @@ const Users = ({ isDarkMode }) => {
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [users, setUsers] = useState([]);
 
-    // Fetch user data from randomuser.me
+    // Fetch user data from randomuser.me and dicebear avatars
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('https://randomuser.me/api/?results=50'); // Fetch 50 random users
+                const response = await fetch('https://randomuser.me/api/?results=50');
                 const data = await response.json();
-                const usersWithDetails = data.results.map(user => ({
+
+                const roles = [
+                    'Admin',
+                    'Developer',
+                    'Product Manager',
+                    'Designer',
+                    'Marketing Manager',
+                    'Sales Rep',
+                    'Support Specialist'
+                ];
+
+                const departments = [
+                    'Engineering',
+                    'Product',
+                    'Design',
+                    'Marketing',
+                    'Sales',
+                    'Customer Support',
+                    'Operations'
+                ];
+
+                const usersWithDetails = data.results.map((user, index) => ({
                     id: user.login.uuid,
                     name: `${user.name.first} ${user.name.last}`,
                     email: user.email,
-                    role: 'User ', // Default role
-                    status: Math.random() > 0.5 ? 'Active' : 'Inactive', // Random active/inactive status
-                    lastActive: `${Math.floor(Math.random() * 24)} hours ago`, // Random last active time
-                    department: 'Engineering', // Default department
-                    avatar: user.picture.thumbnail // User avatar
+                    role: roles[Math.floor(Math.random() * roles.length)],
+                    status: Math.random() > 0.5 ? 'Active' : 'Inactive',
+                    lastActive: `${Math.floor(Math.random() * 24)} hours ago`,
+                    department: departments[Math.floor(Math.random() * departments.length)],
+                    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.login.uuid}&backgroundColor=b6e3f4,c0aede,d1d4f9&radius=50`
                 }));
+
                 setUsers(usersWithDetails);
-                setFilteredUsers(usersWithDetails); // Initialize filtered users
+                setFilteredUsers(usersWithDetails);
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
