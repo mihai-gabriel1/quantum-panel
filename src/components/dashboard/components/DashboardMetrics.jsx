@@ -153,7 +153,7 @@ const DashboardMetrics = ({ isDarkMode }) => {
     return (
         <div className="p-6 space-y-6">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex max-sm:flex-col justify-between items-center">
                 <div>
                     <h1 className={`text-2xl font-bold ${
                         isDarkMode ? 'text-white' : 'text-gray-900'

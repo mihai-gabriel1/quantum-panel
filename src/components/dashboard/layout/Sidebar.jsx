@@ -11,14 +11,14 @@ const Sidebar = ({ isOpen, setIsOpen, isDarkMode, setIsDarkMode }) => {
         { icon: Home, label: 'Dashboard', path: '/dashboard' },
         { icon: Users, label: 'Users', path: '/users' },
         { icon: BarChart3, label: 'Analytics', path: '/analytics' },
-        { icon: FileWarning, label: 'System Events', path: '/system-events' }, // Use a suitable icon here
+        { icon: FileWarning, label: 'System Events', path: '/system-events' },
         { icon: Settings, label: 'Settings', path: '/settings' },
         { icon: HelpCircle, label: 'Help', path: '/help' },
     ];
 
     return (
         <aside
-            className={`fixed top-0 left-0 z-40 h-full transition-transform ${
+            className={`fixed top-0 left-0 z-40 max-sm:w-full h-full transition-transform ${
                 isOpen ? 'translate-x-0' : '-translate-x-full'
             } ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-r ${
                 isDarkMode ? 'border-gray-700' : 'border-gray-200'
