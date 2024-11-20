@@ -1,3 +1,4 @@
+// DashboardLayout.jsx
 import React, {useState, useEffect} from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -24,16 +25,26 @@ const getCookie = (name) => {
 };
 
 const DashboardLayout = ({children}) => {
-    const isMobileScreen = () => window.innerWidth < 768; // 768px is the md breakpoint in Tailwind
+    const isMobileScreen = () => window.innerWidth < 768;
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobileScreen());
     const [isDarkMode, setIsDarkMode] = useState(() => {
+        // First check cookie
         const cookieValue = getCookie('darkMode');
         if (cookieValue !== null) {
             return cookieValue === 'true';
         }
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
+
+    useEffect(() => {
+        setCookie('darkMode', isDarkMode);
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDarkMode]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -47,6 +58,7 @@ const DashboardLayout = ({children}) => {
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
     useEffect(() => {
         if (isMobileScreen()) {
             setIsSidebarOpen(false);
@@ -61,12 +73,14 @@ const DashboardLayout = ({children}) => {
             }
         };
 
-        mediaQuery.addListener(handleChange);
-        return () => mediaQuery.removeListener(handleChange);
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
     const handleDarkModeToggle = () => {
-        setIsDarkMode(!isDarkMode);
+        const newDarkMode = !isDarkMode;
+        setIsDarkMode(newDarkMode);
+        setCookie('darkMode', newDarkMode);
     };
 
     return (
@@ -86,7 +100,6 @@ const DashboardLayout = ({children}) => {
                 />
 
                 <main className="pt-0 px-4 md:px-6 lg:px-8 py-6">
-                    {/* Clone children and pass isDarkMode prop */}
                     {React.Children.map(children, child => {
                         return React.cloneElement(child, {isDarkMode});
                     })}

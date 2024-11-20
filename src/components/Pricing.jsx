@@ -41,7 +41,7 @@ const PricingSection = () => {
                     <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-indigo-500/30 shadow-lg shadow-indigo-500/10">
                         <div className="text-center mb-8 justify-center flex flex-col items-center">
                             <div className="flex flex-col items-center mb-6">
-                                <div className="text-5xl font-bold text-white mb-2">$10</div>
+                                <div className="text-5xl font-bold text-white mb-2">$12</div>
                                 <p className="text-gray-400">One-time payment</p>
                             </div>
 
